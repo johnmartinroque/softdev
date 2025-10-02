@@ -10,7 +10,7 @@ window.process = process;
 
 function App() {
   return (
-    <div className="bg-gray-800">
+    <div className="bg-gray-800 min-h-screen">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

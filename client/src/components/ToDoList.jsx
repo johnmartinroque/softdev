@@ -27,6 +27,15 @@ function ToDoList() {
     setNewTodo("");
   };
 
+  const removeTodo = (index) => {
+    try {
+      const updatedTodos = todos.filter((_, i) => i !== index);
+      setTodos(updatedTodos);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos)); // update storage too
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
@@ -65,9 +74,15 @@ function ToDoList() {
         {todos.map((todo, index) => (
           <li
             key={index}
-            className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm"
+            className="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm"
           >
-            {todo}
+            <span>{todo}</span>
+            <button
+              onClick={() => removeTodo(index)}
+              className="ml-4 text-sm text-red-600 hover:text-red-800"
+            >
+              REMOVE
+            </button>
           </li>
         ))}
       </ul>
