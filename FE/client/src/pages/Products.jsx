@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../api"; // import your API call
+import { getProducts } from "../api/productsApi";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
