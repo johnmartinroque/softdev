@@ -1,40 +1,76 @@
 import React, { useEffect, useState } from "react";
 
 function ToDoList() {
-  const [todos, setTodos] = useState("");
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
-  const addTodo = () => {
+  const fetchTodos = () => {
     try {
+      const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+      setTodos(storedTodos);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching todos:", err);
     }
   };
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (newTodo.trim() === "") return;
+
+    const updatedTodos = [...todos, newTodo];
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    setNewTodo("");
+  };
+
   return (
-    <div>
-      <h1>Todo List</h1>
-      <form class="max-w-sm mx-auto">
-        <div class="mb-5"></div>
-        <div class="mb-5">
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+
+      <form onSubmit={addTodo} className="max-w-sm mx-auto">
+        <div className="mb-5">
           <label
-            for="base-input"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="base-input"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Base input
+            Add a todo
           </label>
           <input
             type="text"
             id="base-input"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>
         <button
           type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 
+                     text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Add{" "}
+          Add
         </button>
       </form>
+
+      {/* Todo List Display */}
+      <ul className="mt-6 space-y-2">
+        {todos.map((todo, index) => (
+          <li
+            key={index}
+            className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm"
+          >
+            {todo}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
