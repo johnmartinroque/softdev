@@ -36,6 +36,22 @@ app.post("/products", async (req, res) => {
   }
 });
 
+// Create multiple products
+app.post("/products/bulk", async (req, res) => {
+  const products = req.body; // Expecting an array of products
+
+  try {
+    const createdProducts = await prisma.product.createMany({
+      data: products,
+      skipDuplicates: true, // optional: avoid duplicate insertions
+    });
+    res.status(201).json(createdProducts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error creating products" });
+  }
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
