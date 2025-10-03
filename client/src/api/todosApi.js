@@ -21,3 +21,18 @@ export const deleteTodoApi = async (id) => {
     return null;
   }
 };
+
+export const updateTodoApi = async (id, title, description) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/${id}`,
+
+      title,
+      description
+    );
+    return response.data;
+  } catch (error) {
+    console.error("error updating ", error);
+    return null;
+  }
+};
