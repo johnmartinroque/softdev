@@ -4,6 +4,7 @@ import Products from "./pages/Products";
 import { Buffer } from "buffer";
 import process from "process";
 import Home from "./pages/Home";
+import Header from "./components/Header";
 
 window.Buffer = Buffer;
 window.process = process;
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="bg-gray-800 min-h-screen">
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
