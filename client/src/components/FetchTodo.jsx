@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteTodoApi, getTodosApi, updateTodoApi } from "../api/todosApi";
 
-function FetchTodo({ reload }) {
+function FetchTodo({ reload = null }) {
   const [todos, setTodos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
