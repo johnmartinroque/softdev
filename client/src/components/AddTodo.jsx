@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { addTodoApi } from "../api/todosApi";
 
-function AddTodo() {
+function AddTodo({ onTodoAdded }) {
   const [newTitle, setNewTitle] = useState("");
-  const [newDescriptionk, setNewDescription] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
-  // Empty functions for now
-  const handleChange = (e) => {
-    // setNewTodo(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // logic to add todo will go here
+    if (!newTitle.trim()) return;
+
+    const newTodo = await addTodoApi(newTitle, newDescription);
+
+    setNewTitle("");
+    setNewDescription("");
+    onTodoAdded?.();
   };
 
   return (
@@ -42,8 +44,8 @@ function AddTodo() {
         <input
           type="text"
           id="base-input"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          value={newDescription}
+          onChange={(e) => setNewDescription(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 

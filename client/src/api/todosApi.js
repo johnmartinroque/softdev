@@ -36,3 +36,16 @@ export const updateTodoApi = async (id, title, description) => {
     return null;
   }
 };
+
+export const addTodoApi = async (title, description) => {
+  try {
+    const response = await axios.post(API_URL, {
+      title,
+      description,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("error creating a todo", error);
+    return null;
+  }
+};

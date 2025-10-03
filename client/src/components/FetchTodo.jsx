@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteTodoApi, getTodosApi, updateTodoApi } from "../api/todosApi";
 
-function FetchTodo() {
+function FetchTodo({ reload }) {
   const [todos, setTodos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
@@ -51,7 +51,7 @@ function FetchTodo() {
 
   useEffect(() => {
     fetchTodo();
-  }, []);
+  }, [reload]);
   return (
     <div className="text-white">
       FetchTodo from backend
