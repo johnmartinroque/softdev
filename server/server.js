@@ -1,4 +1,6 @@
-const express = require("express");
+{
+  /*
+  const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = 5000;
@@ -12,14 +14,14 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+  */
+}
 
-{
-  /*
-  
-  const express = require("express");
+const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 5000;
+const todoRoutes = require("./routes/todoRoutes");
 
 // Enable JSON parsing
 app.use(express.json());
@@ -29,6 +31,8 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
+app.use("/todos", todoRoutes);
 
 // Import Prisma client
 const { PrismaClient } = require("@prisma/client");
@@ -81,5 +85,3 @@ app.post("/products/bulk", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-*/
-}
