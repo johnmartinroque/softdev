@@ -45,7 +45,9 @@ app.get("/", (req, res) => {
   res.send("Hello from Express");
 });
 
-// Get all products
+{
+  /* 
+  // Get all products
 app.get("/products", async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
@@ -80,6 +82,9 @@ app.post("/products/bulk", async (req, res) => {
     res.status(500).json({ error: "Error creating products" });
   }
 });
+  
+  */
+}
 
 // Start server
 app.listen(port, () => {

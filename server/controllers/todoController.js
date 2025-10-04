@@ -28,10 +28,10 @@ const getTodoById = async (req, res) => {
 
 // Create todo
 const createTodo = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, category, status } = req.body;
   try {
     const todo = await prisma.todo.create({
-      data: { title, description },
+      data: { title, description, category, status },
     });
     res.status(201).json(todo);
   } catch (error) {
