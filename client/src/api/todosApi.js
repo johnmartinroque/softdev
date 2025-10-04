@@ -37,11 +37,13 @@ export const updateTodoApi = async (id, title, description) => {
   }
 };
 
-export const addTodoApi = async (title, description) => {
+export const addTodoApi = async (title, description, category, status) => {
   try {
     const response = await axios.post(API_URL, {
       title,
       description,
+      category,
+      status,
     });
     return response.data;
   } catch (error) {
