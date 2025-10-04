@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addTodoApi } from "../api/todosApi";
 
 function AddTodo({ onTodoAdded }) {
@@ -32,6 +32,16 @@ function AddTodo({ onTodoAdded }) {
       setErrorMessage("Failed to add Todo. Please try again later.");
     }
   };
+
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <form
