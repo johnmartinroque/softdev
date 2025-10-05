@@ -4,7 +4,7 @@ import Products from "./pages/Products";
 import { Buffer } from "buffer";
 import process from "process";
 import Home from "./pages/Home";
-import Header from "./components/Header";
+import Header from "./components/others/Header";
 
 window.Buffer = Buffer;
 window.process = process;
