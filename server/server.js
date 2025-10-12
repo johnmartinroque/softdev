@@ -2,17 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 5000;
-const todoRoutes = require("./routes/todoRoutes");
 
-// Enable JSON parsing
+// Enable JSON parsing and CORS first
 app.use(express.json());
-
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
 
+const todoRoutes = require("./routes/todoRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+app.use("/auth", authRoutes);
 app.use("/todos", todoRoutes);
 
 // Import Prisma client

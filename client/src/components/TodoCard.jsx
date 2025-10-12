@@ -1,5 +1,7 @@
+"use client";
 import React, { useState } from "react";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { Pencil, Trash2, Check, X } from "lucide-react";
 
 function TodoCard({ todo, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -32,56 +34,76 @@ function TodoCard({ todo, onDelete, onUpdate }) {
   };
 
   return (
-    <div className="relative">
-      <div className="bg-gray-500 p-4 rounded-lg text-white shadow-md flex flex-col justify-between w-full h-56">
+    <div className="relative group">
+      <div className="bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:border-green-400/40 transition-all duration-300 p-6 flex flex-col justify-between h-full min-h-[240px] relative overflow-hidden">
+        {/* Subtle glow accent */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-green-100 rounded-full blur-2xl -translate-y-8 translate-x-8 group-hover:bg-green-200 transition-colors duration-300" />
+
         {isEditing ? (
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col gap-4 relative z-10">
             <input
-              className="p-1 rounded text-black"
+              className="px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-50 text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 transition-all"
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
+              placeholder="Title"
             />
             <textarea
-              className="p-1 rounded text-black resize-none"
+              className="px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-50 text-gray-900 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 transition-all min-h-[100px] leading-relaxed"
               value={editDescription}
               onChange={(e) => setEditDescription(e.target.value)}
+              placeholder="Description"
             />
-            <div className="flex space-x-2">
+            <div className="flex gap-3">
               <button
-                className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:shadow-md transition-all text-sm font-medium flex-1"
                 onClick={handleConfirmUpdate}
               >
-                ✅
+                <Check className="w-4 h-4" />
+                Save
               </button>
               <button
-                className="px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 hover:shadow-md transition-all text-sm font-medium flex-1"
                 onClick={handleCancelUpdate}
               >
-                ❌
+                <X className="w-4 h-4" />
+                Cancel
               </button>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col justify-between h-full">
-            <div>
-              <div className="font-semibold text-lg mb-1">{todo.title}</div>
-              <div className="text-sm mb-1">
-                Description: {todo.description}
+          <div className="flex flex-col justify-between h-full relative z-10">
+            <div className="space-y-4">
+              <h3 className="font-serif font-semibold text-xl text-gray-900 leading-tight">
+                {todo.title}
+              </h3>
+              {todo.description && (
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {todo.description}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
+                  {todo.category}
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                  {todo.status}
+                </span>
               </div>
-              <div className="text-sm">Category: {todo.category}</div>
-              <div className="text-sm">Status: {todo.status}</div>
             </div>
-            <div className="flex space-x-2 mt-2">
+
+            <div className="flex gap-3 mt-6 pt-5 border-t-2 border-gray-200">
               <button
-                className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:shadow-md transition-all text-sm font-medium flex-1"
                 onClick={() => setIsEditing(true)}
               >
+                <Pencil className="w-4 h-4" />
                 Edit
               </button>
               <button
-                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-600 border-2 border-red-200 rounded-lg hover:bg-red-600 hover:text-white hover:shadow-md transition-all text-sm font-medium flex-1"
                 onClick={handleDeleteClick}
               >
+                <Trash2 className="w-4 h-4" />
                 Delete
               </button>
             </div>
@@ -89,7 +111,6 @@ function TodoCard({ todo, onDelete, onUpdate }) {
         )}
       </div>
 
-      {/* Modal */}
       <DeleteConfirmationModal
         isOpen={showModal}
         onConfirm={confirmDelete}

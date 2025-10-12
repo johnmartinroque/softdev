@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/todos";
@@ -51,3 +52,28 @@ export const addTodoApi = async (title, description, category, status) => {
     return null;
   }
 };
+
+function Todos() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:5000/todos", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setTodos(data));
+  }, []);
+
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.title}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default Todos;
