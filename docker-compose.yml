@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: Todo
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: Todo
+    ports:
+      - "5431:5432" # host:container (use 5431 to avoid conflict with local postgres)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    image: node:20
+    container_name: todo_backend
+    working_dir: /usr/src/app
+    command: sh -c "npm install && npx prisma migrate deploy && npx prisma generate && npm run dev"
+    volumes:
+      - ./BE/my-express-app:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/Todo
+      - NODE_ENV=development
+    depends_on:
+      - db
+    restart: unless-stopped
+
+
+  frontend:
+    image: node:20
+    container_name: todo_frontend
+    working_dir: /usr/src/app
+    command: sh -c "npm install && npm run dev -- --host"
+    volumes:
+      - ./FE/my-react-app:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
